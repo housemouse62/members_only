@@ -61,10 +61,6 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
-});
-
 app.post(
   "/log-in",
   passport.authenticate("local", {
@@ -145,6 +141,22 @@ app.post("/confirm", async (req, res) => {
       confirmError: "Incorrect Confirmation Number, Try Again!",
     });
   }
+});
+
+app.get("/createMessage", (req, res) => {
+  res.render("create-message", { user: req.user });
+});
+
+app.post("/createMessage", async (req, res) => {
+  await pool.query(
+    "INSERT INTO messages (user_id, title, text) VALUES ($1, $2, $3)",
+    [req.user.id, req.body.title, req.body.text],
+  );
+  res.render("message-posted");
+});
+
+app.get("/", (req, res) => {
+  res.render("index", { user: req.user });
 });
 
 app.listen(3000, (err) => {
