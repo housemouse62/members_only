@@ -132,12 +132,19 @@ app.post(
 app.get("/confirm", (req, res) => {
   res.render("confirm-membership", { user: req.user });
 });
+
 app.post("/confirm", async (req, res) => {
-  if (req.body.confirm === 62)
+  if (req.body.confirm === "62") {
     await pool.query(
-      "UPDATE users SET membership_status = true WHERE id === $1",
+      "UPDATE users SET membership_status = true WHERE id = $1",
       [req.user.id],
     );
+    return res.render("index", { user: req.user });
+  } else {
+    return res.render("confirm-membership", {
+      confirmError: "Incorrect Confirmation Number, Try Again!",
+    });
+  }
 });
 
 app.listen(3000, (err) => {
