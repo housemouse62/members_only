@@ -102,14 +102,16 @@ app.post(
     }
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      console.log(req.body.admin);
       const { rows } = await pool.query(
-        "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5) RETURNING id, username",
+        "INSERT INTO users (first_name, last_name, email, username, password, admin) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, username",
         [
           req.body.first_name,
           req.body.last_name,
           req.body.email,
           req.body.username,
           hashedPassword,
+          req.body.admin ? true : false,
         ],
       );
       const user = rows[0];
@@ -135,7 +137,7 @@ app.post("/confirm", async (req, res) => {
       "UPDATE users SET membership_status = true WHERE id = $1",
       [req.user.id],
     );
-    return res.render("index", { user: req.user });
+    return res.redirect("/");
   } else {
     return res.render("confirm-membership", {
       confirmError: "Incorrect Confirmation Number, Try Again!",
