@@ -5,7 +5,19 @@
     <title>Members Only! Home.</title>
   </head>
   <body>
-    <h1>hello world</h1>
+    <% if (locals.user) {%>
+    <h1>WELCOME BACK <%= user.username %></h1>
+  <a href="/log-out">LOG OUT</a>
+<% } else { %>
+    <h1>Hello member! Log in please:</h1>
+    <form action="/log-in" method="POST">
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="username" placeholder="username" />
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" />
+      <button type="submit">Log In</button>
+    </form>
+    <%}%>
     <a href="/sign-up">Sign Up</a>
   </body>
 </html>
