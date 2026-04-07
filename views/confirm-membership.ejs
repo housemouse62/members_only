@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Confirm Membership</title>
+  </head>
+  <body>
+    <h1>Confirm Membership</h1>
+    <h2><%= user.username %></h2>
+    <form action="/confirm" method="POST">
+      <label for="confirm"
+        >Enter the super secret code 62 to confirm membership</label
+      >
+      <input type="number" name="confirm" id="confirm" />
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>

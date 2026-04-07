@@ -72,6 +72,7 @@ app.post(
     failureRedirect: "/",
   }),
 );
+
 app.get("/log-out", (req, res, next) => {
   req.logout((err) => {
     if (err) {
@@ -88,6 +89,7 @@ app.post(
   body("confirmPassword").custom((value, { req }) => {
     const match = value === req.body.password;
     if (!match) throw new Error("Passwords do not match.");
+    return true;
   }),
   async (req, res, next) => {
     const passwordErrors = validationResult(req);
@@ -104,8 +106,8 @@ app.post(
     }
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      (await pool.query(
-        "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)",
+      const { rows } = await pool.query(
+        "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5) RETURNING id, username",
         [
           req.body.first_name,
           req.body.last_name,
@@ -113,13 +115,30 @@ app.post(
           req.body.username,
           hashedPassword,
         ],
-      ),
-        res.redirect("/"));
+      );
+      const user = rows[0];
+      req.login(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.redirect("/confirm");
+      });
     } catch (err) {
       return next(err);
     }
   },
 );
+
+app.get("/confirm", (req, res) => {
+  res.render("confirm-membership", { user: req.user });
+});
+app.post("/confirm", async (req, res) => {
+  if (req.body.confirm === 62)
+    await pool.query(
+      "UPDATE users SET membership_status = true WHERE id === $1",
+      [req.user.id],
+    );
+});
 
 app.listen(3000, (err) => {
   if (err) {
