@@ -5,6 +5,7 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
+const { body, matchedData, validationResult } = require("express-validator");
 
 const pool = new Pool({
   host: "localhost",
@@ -81,24 +82,44 @@ app.get("/log-out", (req, res, next) => {
 });
 
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
-app.post("/sign-up", async (req, res, next) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    (await pool.query(
-      "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)",
-      [
-        req.body.first_name,
-        req.body.last_name,
-        req.body.email,
-        req.body.username,
-        hashedPassword,
-      ],
-    ),
-      res.redirect("/"));
-  } catch (err) {
-    return next(err);
-  }
-});
+
+app.post(
+  "/sign-up",
+  body("confirmPassword").custom((value, { req }) => {
+    const match = value === req.body.password;
+    if (!match) throw new Error("Passwords do not match.");
+  }),
+  async (req, res, next) => {
+    const passwordErrors = validationResult(req);
+    console.log(passwordErrors.array());
+    if (!passwordErrors.isEmpty()) {
+      const passwordErrorPayload = {
+        passwordErrors: passwordErrors.array(),
+        passwordData: req.body,
+      };
+
+      return res.status(400).render("sign-up-form", {
+        ...passwordErrorPayload,
+      });
+    }
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      (await pool.query(
+        "INSERT INTO users (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5)",
+        [
+          req.body.first_name,
+          req.body.last_name,
+          req.body.email,
+          req.body.username,
+          hashedPassword,
+        ],
+      ),
+        res.redirect("/"));
+    } catch (err) {
+      return next(err);
+    }
+  },
+);
 
 app.listen(3000, (err) => {
   if (err) {

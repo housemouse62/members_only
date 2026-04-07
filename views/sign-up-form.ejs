@@ -37,16 +37,17 @@
         id="password"
         placeholder="Password"
       />
-      <!-- <label for="confirmPassword">Confirm Password</label>
+      <label for="confirmPassword">Confirm Password</label>
       <input
         type="password"
         name="confirmPassword"
         id="confirmPassword"
         placeholder="Confirm Password"
       />
-      <input type="checkbox" name="isAdmin" id="inAdmin" />
+      <!-- <input type="checkbox" name="isAdmin" id="inAdmin" />
       <label for="isAdmin">Admin?</label> -->
       <button type="submit">Submit</button>
     </form>
+    <%- include("../partials/passwordErrors.ejs") %>
   </body>
 </html>
