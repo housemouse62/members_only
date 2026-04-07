@@ -155,8 +155,11 @@ app.post("/createMessage", async (req, res) => {
   res.render("message-posted");
 });
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
+app.get("/", async (req, res) => {
+  const { rows } = await pool.query(
+    "SELECT users.username AS username, users.membership_status AS member, messages.title AS title, messages.text AS text, messages.timestamp AS timestamp FROM users INNER JOIN messages ON users.id=messages.user_id;",
+  );
+  res.render("index", { user: req.user, messages: rows });
 });
 
 app.listen(3000, (err) => {

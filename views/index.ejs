@@ -20,5 +20,18 @@
     </form>
     <%}%>
     <a href="/sign-up">Sign Up</a>
+    <% if (locals.user) {%>
+    <% messages.forEach((message) => { %>
+      <div class="message-div">
+        <h2 class="title"><%= message.title %></h2>
+        <p class="message"><%= message.text %></p>
+        <% if (user.membership_status) { %> 
+        <p class="username"><%= message.username %></p>
+        <p class="timestamp"><%= message.timestamp %></p>
+        <% } else { %>
+        <p class="username">Anonymous User</p>
+        <p class="timestamp">Anonymous Date</p>
+        <% } %>
+      </div><% }); %><% }; %>
   </body>
 </html>
