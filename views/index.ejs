@@ -32,6 +32,11 @@
         <p class="username">Anonymous User</p>
         <p class="timestamp">Anonymous Date</p>
         <% } %>
+        <% if (user.admin) { %>
+        <form method="POST" action="/?message_id=<%= message.message_id %>">
+        <button type="submit" id="delete" class="delete">Delete</button>
+        </form>
+        <% } %>
       </div><% }); %><% }; %>
   </body>
 </html>
