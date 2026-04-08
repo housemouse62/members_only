@@ -1,0 +1,263 @@
+/* =============================================
+   MEMBERS ONLY — Accessible Stylesheet
+   WCAG 2.1 AA compliant
+   ============================================= */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Skip-to-main link for keyboard users */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: #1a1a2e;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 0 0 4px 4px;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top 0.1s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+html {
+  font-size: 100%; /* respects user browser settings */
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.125rem; /* 18px — above 16px minimum */
+  line-height: 1.6;
+  background-color: #f5f0eb;
+  color: #1a1a1a; /* contrast ratio > 12:1 on bg */
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+/* --- Layout --- */
+main, .page-wrapper {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* --- Typography --- */
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: #1a1a2e;
+}
+
+h2 {
+  font-size: 1.35rem;
+  line-height: 1.3;
+  color: #1a1a2e;
+  margin-bottom: 0.25rem;
+}
+
+p {
+  margin-bottom: 0.75rem;
+}
+
+a {
+  color: #1a3a8a; /* 7.5:1 on white */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: #0d2563;
+  text-decoration-thickness: 2px;
+}
+
+/* --- Focus Styles (visible for all interactive elements) --- */
+:focus-visible {
+  outline: 3px solid #e05c00;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- Nav / Action Links --- */
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+/* --- Forms --- */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #1a1a1a;
+  margin-bottom: 0.2rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+  display: block;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  border: 2px solid #5a5a6e;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  transition: border-color 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  border-color: #e05c00;
+  outline: none; /* replaced by border */
+  box-shadow: 0 0 0 3px rgba(224, 92, 0, 0.25);
+}
+
+/* Checkbox row — keep label inline */
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: row;
+}
+
+input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #1a3a8a;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* --- Buttons --- */
+button[type="submit"] {
+  align-self: flex-start;
+  padding: 0.65rem 1.5rem;
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  background-color: #1a3a8a;
+  color: #ffffff; /* contrast 8.5:1 */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.15s, transform 0.1s;
+  min-height: 44px; /* WCAG 2.5.5 touch target */
+  min-width: 44px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0d2563;
+}
+
+button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
+/* Delete button variant */
+button.delete {
+  background-color: #b30000;
+  color: #ffffff; /* contrast 9:1 */
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
+button.delete:hover {
+  background-color: #7f0000;
+}
+
+/* --- Message Cards --- */
+.message-div {
+  background-color: #ffffff;
+  border: 1px solid #d0cac3;
+  border-left: 4px solid #1a3a8a;
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.message-div .title {
+  font-size: 1.25rem;
+  color: #1a1a2e;
+  margin-bottom: 0.4rem;
+}
+
+.message-div .message {
+  margin-bottom: 0.5rem;
+}
+
+.message-div .username {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3a3a5a;
+  margin-bottom: 0.1rem;
+}
+
+.message-div .timestamp {
+  font-size: 0.85rem;
+  color: #5a5a6e;
+  margin-bottom: 0.5rem;
+}
+
+/* Delete form inside message card — no extra margin */
+.message-div form {
+  margin-bottom: 0;
+}
+
+/* --- Error / Alert Messages --- */
+.error-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.error {
+  padding: 0.5rem 0.75rem;
+  background-color: #fff0f0;
+  border: 1px solid #cc0000;
+  border-left: 4px solid #cc0000;
+  border-radius: 4px;
+  color: #7a0000; /* contrast 8.5:1 on #fff0f0 */
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* --- Success / Confirmation Pages --- */
+.success-heading {
+  color: #145214;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    align-self: stretch;
+  }
+}

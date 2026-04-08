@@ -1,31 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Members Only! Home.</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <main id="main" class="page-wrapper">
     <% if (locals.user) {%>
-    <h1>WELCOME BACK <%= user.username %></h1>
-    <a href="/createMessage">Create New Message</a>
-  <a href="/log-out">LOG OUT</a>
-<% } else { %>
-    <h1>Hello member! Log in please:</h1>
+    <h1>Welcome back, <%= user.username %></h1>
+    <nav class="nav-links" aria-label="Site navigation">
+      <a href="/createMessage">Create New Message</a>
+      <a href="/log-out">Log Out</a>
+      <a href="/sign-up">Sign Up</a>
+    </nav>
+    <% } else { %>
+    <h1>Hello! Log in to read the board:</h1>
     <form action="/log-in" method="POST">
       <label for="username">Username:</label>
-      <input type="text" name="username" id="username" placeholder="username" />
+      <input type="text" name="username" id="username" placeholder="username" autocomplete="username" />
       <label for="password">Password:</label>
-      <input type="password" name="password" id="password" />
+      <input type="password" name="password" id="password" autocomplete="current-password" />
       <button type="submit">Log In</button>
     </form>
-    <%}%>
     <a href="/sign-up">Sign Up</a>
+    <%}%>
     <% if (locals.user) {%>
     <% messages.forEach((message) => { %>
       <div class="message-div">
         <h2 class="title"><%= message.title %></h2>
         <p class="message"><%= message.text %></p>
-        <% if (user.membership_status) { %> 
+        <% if (user.membership_status) { %>
         <p class="username"><%= message.username %></p>
         <p class="timestamp"><%= message.timestamp %></p>
         <% } else { %>
@@ -34,9 +41,12 @@
         <% } %>
         <% if (user.admin) { %>
         <form method="POST" action="/?message_id=<%= message.message_id %>">
-        <button type="submit" id="delete" class="delete">Delete</button>
+          <button type="submit" class="delete" aria-label="Delete message: <%= message.title %>">Delete</button>
         </form>
         <% } %>
-      </div><% }); %><% }; %>
+      </div>
+    <% }); %>
+    <% }; %>
+    </main>
   </body>
 </html>

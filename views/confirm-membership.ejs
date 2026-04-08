@@ -2,17 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Confirm Membership</title>
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <h1>Confirm Membership</h1>
-    <h2><%= user.username %></h2>
-    <form action="/confirm" method="POST">
-      <label for="confirm"
-        >Enter the super secret code 62 to confirm membership</label
-      >
-      <input type="number" name="confirm" id="confirm" />
-      <button type="submit">Submit</button>
-    </form>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <main id="main" class="page-wrapper">
+      <h1>Confirm Membership</h1>
+      <h2><%= user.username %></h2>
+      <form action="/confirm" method="POST">
+        <label for="confirm">Enter the super secret code to confirm membership</label>
+        <input type="number" name="confirm" id="confirm" />
+        <button type="submit">Submit</button>
+      </form>
+    </main>
   </body>
 </html>
