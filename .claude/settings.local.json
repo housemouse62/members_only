@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/ryanskeels/repos/members_only log --oneline -5)"
+    ]
+  }
+}
